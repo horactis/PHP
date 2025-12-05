@@ -1,12 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    
-
-</body>
-</html>
+<?php
+session_start(); //Recogemos la sesion
+$_SESSION = []; //Limpiamos el array de la sesión
+session_destroy(); //Eliminamos todos los datos de la sesión del servidor PERO la cookie_PHPSESSID sigue existiendo en el navegador (pero sin datos asociados)
+header("location: login.php"); //Redirigir al cliente al login
+exit();
+?>

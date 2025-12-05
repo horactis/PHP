@@ -40,8 +40,8 @@
                 }else{
                     $info_usuario = $resultado->fetch_assoc();
 
-                    echo "Contraseña ingresada: ".$contraseña;
-                    echo "<br>Hash almacenado: ".$info_usuario["contraseña"];
+                    //echo "Contraseña ingresada: ".$contraseña;
+                    //echo "<br>Hash almacenado: ".$info_usuario["contraseña"];
                     //echo <pre>;
                     //var_dump($contraseña, $info_usuario["contraseña"]);
                     //echo </pre>;
@@ -68,7 +68,15 @@
                         $_SESSION["usuario"] = $usuario;
                         $_SESSION["admin"] = $info_usuario["admin"];
                         
-
+                        header("location: ../index.php");
+                        exit();
+                        /**
+                         * Que es header
+                         * 
+                         * cuando tu navegador pide una página, el servidor responde con algo asi HTTP/1.1 200 OK
+                         * Content-type: text/html; charset=UTF-8.......
+                         * <html></html> 
+                         */
                         
                     }
                 }
@@ -90,15 +98,11 @@
                         <?php if(isset($err_contraseña)) echo "<div class='alert alert-danger'>$err_contraseña</div>";?>
                     </div>
                     <div class="mb-3">
-                        <input type="checkbox" name="admin" class="form-check-input">
-                        <label class="form-check-label">¿Eres admin?</label>
-                    </div>
-                    <div class="mb-3">
-                        <input type="submit" value="Registrarse" class="btn btn-primary w-100">
+                        <input type="submit" value="Iniciar sesion" class="btn btn-primary w-100">
                     </div>
                 </form>
-                <h3 class="text-center mt-4 mb-3">Si ya tienes cuenta, inicia sesión</h3>
-                <a href="login.php" class="btn btn-secondary w-100">Iniciar sesión</a>
+                <h3 class="text-center mt-4 mb-3">Si no tienes cuenta, registrate</h3>
+                <a href="crearUser.php" class="btn btn-secondary w-100">Registrarse</a>
             </div>
         </div>
     </div>
