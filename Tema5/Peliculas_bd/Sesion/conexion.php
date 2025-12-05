@@ -23,7 +23,7 @@
     $_conexion = new mysqli($_servidor, $_usuario, $_contraseña, $_bd);
 
     if($_conexion->connect_error){
-        die("Errpr en la conexión: ".$_conexion->connect_error);
+        die("Error en la conexión: ".$_conexion->connect_error);
     }
     //var_dump($_conexion->connect_error);
     //echo "Conectaos :D";
