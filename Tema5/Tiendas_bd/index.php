@@ -11,21 +11,14 @@ session_start();
     <?php
     error_reporting(E_ALL);
     ini_set("display_errors",1);
-    if(!isset($_SESSION["usuario"])){
-        header("location: sesion/login.php");
+    if(!isset($_SESSION["email"])){
+        header("location: Sesion/login.php");
         exit();
-    
+    }
     ?>
 </head>
 <body>
-    <h1>Bienvenido, <?= $_SESSION["usuario"] ?></h1>
-    <a href="nuevaPeli.php">Crear una nueva pelicula</a>
-    <a href="nuevoEstudio.php">Crear un nuevo estudio</a>
-    <a href="listaPelis.php">Ir a las pelis</a>
-    <a href="listaEstudios.php">Ir a estudios</a>
-    <?php
-    }
-    ?>
+    <h1>Has iniciado sesion <?= $_SESSION["email"] ?></h1>
 
     <a href="Sesion/logout.php">Cerrar sesion</a>
 </body>
