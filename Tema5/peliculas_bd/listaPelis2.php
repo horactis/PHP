@@ -1,4 +1,4 @@
-<?php
+?php
 session_start(); //Recogemos la sesión
 ?>
 <!DOCTYPE html>
@@ -14,11 +14,7 @@ session_start(); //Recogemos la sesión
     ini_set("display_errors",1);
     require "sesion/conexion.php";
 
-    $columna = $_GET["order_by"] ?? "id_pelicula"; //Orden por defecto
-    $direccion = $_GET["direction"] ?? "DESC"; // Dirección por defecto
-
-    // El operador ?? es el operador de fusión de null, A??B devuelve A si existe y no es null, y si no, devolverá B
-
+   
 
     if(!isset($_SESSION["usuario"])){
         header("location: sesion/login.php");
@@ -28,22 +24,69 @@ session_start(); //Recogemos la sesión
 </head>
 <body>
     <?php
+    /*
     if($_SERVER["REQUEST_METHOD"] == "POST"){
         $consulta = "DELETE FROM peliculas WHERE id_pelicula = '{$_POST["id_pelicula"]}'";
-        if($_conexion->query($consulta)){
-            echo "<div class='alert alert-success'>Se ha borrado la película con el ID {$_POST["id_pelicula"]}</div>";
+        if($_conexion -> query($consulta)){
+            echo "<div class='alert alert-succes'> Se ha borrado la pelicula con el ID 
+            {$fila['id_pelicula']}";
         }else{
-            echo "<div class='alert alert-danger'>No se ha podido borrar la película con el ID {$_POST["id_pelicula"]}</div>";
+            echo "<div class='alert alert-danger'> No se ha borrado la pelicula con el ID 
+            {$fila['id_pelicula']}";
         }
+
+
+
+
     }
+        */
+        $tabla = [];
+        $consulta = "SELECT * FROM peliculas";
+        $resultado = $_conexion->query($consulta);
+
+        while($fila = $resultado -> fetch_assoc()){
+            array_push($tabla, $fila);
+        }
+
+    if($_SERVER["REQUEST_METHOD"] == "POST"  and $_POST["orden"] == "ordenar"){
+        
+
+        if($_POST["accion"] == "Ordenar año ASC"){
+            $columna = array_column($tabla, "anno_estreno");
+            array_multisort($columna, SORT_ASC, $tabla);
+        }elseif ($_POST["accion"] == "Ordenar año DESC") {
+            $columna = array_column($tabla, "anno_estreno");
+            array_multisort($columna, SORT_DESC, $tabla);
+        }elseif ($_POST["accion"] == "Ordenar id ASC") {
+            $columna = array_column($tabla, "id_pelicula");
+            array_multisort($columna, SORT_ASC, $tabla);
+        }else {
+            $columna = array_column($tabla, "id_pelicula");
+            array_multisort($columna, SORT_DESC, $tabla);
+        }
+
+
+    }
+
+
+
+
     ?>
     <div class="container mt-4">
-        <a href="index.php" class="btn btn-secondary">Ir al menú principal</a>
-        <a href="?order_by=anno_estreno&direction=ASC" class="btn btn-info">Ordenar por año de estreno (ASC)</a>
-        <a href="?order_by=anno_estreno&direction=DESC" class="btn btn-info">Ordenar por año de estreno (DESC)</a>
-        <a href="?order_by=id_pelicula&direction=ASC" class="btn btn-warning">Ordenar por ID (ASC)</a>
-        <a href="?order_by=id_pelicula&direction=DESC" class="btn btn-warning">Ordenar por ID (DESC)</a>
+        <a href="index.php" class="btn btn-secondary"> Ir al menu principal</a>
+        <!--Esto de abajo es lo mismo que mandar un formulario con get
+        Con los campos de order_by y de direction ):-->
+        <form action="" method="POST">
+            <input type="hidden" value="ordenar" name="orden">
+            <input type="submit" class="btn btn-warning" value="Ordenar año ASC" name="accion">
+            <input type="submit" class="btn btn-warning" value="Ordenar año DESC" name="accion">
+            <input type="submit" class="btn btn-primary" value="Ordenar id ASC" name="accion">
+            <input type="submit" class="btn btn-primary" value="Ordenar id DESC" name="accion">
+        </form>
     </div>
+    
+
+
     <table class="table table-striped">
         <thead class="table-primary">
             <tr>
@@ -61,21 +104,28 @@ session_start(); //Recogemos la sesión
         </thead>
         <tbody>
            <?php
-            $consulta = "SELECT * FROM peliculas ORDER BY $columna $direccion";
-            $resultado = $_conexion->query($consulta);
-            while($fila = $resultado->fetch_assoc()){
+            for ($i=0; $i < count($tabla); $i++) { 
+                
                 echo "<tr>";
-                foreach($fila as $peli){
+                foreach($tabla[$i] as $peli){
                     echo "<td>$peli</td>";
                 }
                 if($_SESSION["admin"]){
-                   echo "<td>";
-                    echo "<a href='editarPelis.php' class='btn btn-warning'>Editar</a>";
-                   echo "<form action='' method='post'> <input type='hidden' name='id_pelicula' value='{$fila["id_pelicula"]}'> <input type='submit' value='Borrar' class='btn btn-danger'></form>";
+                   echo "<td>"; 
+                   echo "<a href='editarPelis.php' class='btn btn-warning w-100 mb-1'> Editar </a>"; 
+                   echo "<form action='' method='post'> 
+                   <input type='hidden' name='{$tabla[$i]["id_pelicula"]}'> 
+                   <input type='submit' value='Borrar' class='btn btn-danger '>
+                   </form>"; 
                    echo "</td>";
                 }
                 echo "</tr>";
-            } 
+
+
+
+                }
+                
+            
            ?>
         </tbody>
     </table>
