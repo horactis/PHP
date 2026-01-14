@@ -106,7 +106,7 @@ session_start();
         }
 
         // Si no hay errores, insertamos en la bbdd las cositis
-        /* if(!$errores){
+         if(!$errores){
             //PREPARAR LA CONSULTA (SQL con placeholders)
 
             // Envíamos al servidor el SQL con placeholders (?). El sevidor compila la consulta y devuelve un objeto de tipo mysqli_stmt. En esta fase no se mandan todavía los valores, solo una "plantilla".
@@ -152,12 +152,12 @@ session_start();
                  * bind_param fuerza tipos y por tanto evita errores de locales como decimales, null y eso.
                  * 
                  */
-            /* }else{
+             }else{
                 echo "<div class='alert alert-danger'>Liada astronómica</div>";
             }
             $stmt->close();
 
-        } */
+        } 
         if(!$errores){
             /**
              * Vamos a hacer lo mismo que arriba pero con begin_transaction, commit y rollback
