@@ -36,7 +36,7 @@ session_start();
             <a href="crearJuego.php" class="btn btn-secondary btn-admin">Crear un nuevo juego</a>
             <a href="nuevoEstudio.php" class="btn btn-secondary">Crear un nuevo estudio</a>
             <a href="juego.php" class="btn btn-primary">Ir a los juegos</a>
-            <a href="listaEstudios.php" class="btn btn-primary">Ir a estudios</a>
+            <a href="listaDesarrolladoras.php" class="btn btn-primary">Ir a desarrolladoras</a>
             <a href="sesion/logout.php" class="btn btn-danger">Cerrar sesión</a>
         </div>
 
